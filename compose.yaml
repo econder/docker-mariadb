@@ -1,0 +1,46 @@
+version: "3.8"
+
+name: ${PROJECT_NAME}
+
+secrets:
+  db-root:
+    file: ./secrets/root.txt
+  db-schema:
+    file: ./secrets/schema.txt
+
+volumes:
+  db-data:
+    name: ${DB_VOLUME_NAME}
+  db-adminer-data:
+    name: ${ADMINER_VOLUME_NAME}
+
+services:
+  # Adminer
+  adminer:
+    image: adminer
+    container_name: ${ADMINER_CONTAINER_NAME}
+    ports:
+      - ${ADMINER_PORT}:8080
+    links:
+      - db:${DB_SERVER_NAME}
+    restart: always
+
+  # MySQL DB
+  db:
+    image: mariadb:${DB_VERSION}
+    container_name: ${DB_CONTAINER_NAME}
+    ports:
+      - ${DB_PORT}:3306
+    expose:
+      - "3306"
+    restart: always
+    volumes:
+      - db-data:/var/lib/mysql
+    environment:
+      MARIADB_DATABASE: ${DB_DB_NAME}
+      MARIADB_USER: ${DB_USER}
+      MARIADB_PASSWORD: /run/secrets/db-schema
+      MARIADB_ROOT_PASSWORD: /run/secrets/db-root
+    secrets:
+      - db-root
+      - db-schema
