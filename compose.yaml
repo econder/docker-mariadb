@@ -24,6 +24,7 @@ services:
     links:
       - db:${DB_SERVER_NAME}
     restart: always
+    pull_policy: build
 
   # MySQL DB
   db:
@@ -34,6 +35,7 @@ services:
     expose:
       - "3306"
     restart: always
+    pull_policy: build
     volumes:
       - db-data:/var/lib/mysql
     environment:
