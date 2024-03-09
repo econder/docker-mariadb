@@ -15,8 +15,8 @@ services:
     container_name: ${PROJECT_NAME}-${ADMINER_CONTAINER_NAME}
     ports:
       - ${ADMINER_PORT}:8080
-    links:
-      - db:${DB_SERVER_NAME}
+    # links:
+    #   - db:${DB_SERVER_NAME}
     restart: always
     pull_policy: build
 
