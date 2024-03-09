@@ -4,15 +4,15 @@ name: ${PROJECT_NAME}
 
 volumes:
   db-data:
-    name: ${DB_VOLUME_NAME}
+    name: ${PROJECT_NAME}-${DB_CONTAINER_NAME}-data
   db-adminer-data:
-    name: ${ADMINER_VOLUME_NAME}
+    name: ${PROJECT_NAME}-${ADMINER_CONTAINER_NAME}-data
 
 services:
   # Adminer
   adminer:
     image: adminer
-    container_name: ${ADMINER_CONTAINER_NAME}
+    container_name: ${PROJECT_NAME}-${ADMINER_CONTAINER_NAME}
     ports:
       - ${ADMINER_PORT}:8080
     links:
@@ -23,7 +23,7 @@ services:
   # MySQL DB
   db:
     image: mariadb:${DB_VERSION}
-    container_name: ${DB_CONTAINER_NAME}
+    container_name: ${PROJECT_NAME}-${DB_CONTAINER_NAME}
     ports:
       - ${DB_PORT}:3306
     expose:
