@@ -15,8 +15,6 @@ services:
     container_name: ${PROJECT_NAME}-${ADMINER_CONTAINER_NAME}
     ports:
       - ${ADMINER_PORT}:8080
-    # links:
-    #   - db:${DB_SERVER_NAME}
     restart: always
     pull_policy: build
 
@@ -24,10 +22,9 @@ services:
   db:
     image: mariadb:${DB_VERSION}
     container_name: ${PROJECT_NAME}-${DB_CONTAINER_NAME}
+    hostname: ${PROJECT_NAME}-${DB_CONTAINER_NAME}
     ports:
       - ${DB_PORT}:3306
-    # expose:
-    #   - "3306"
     restart: always
     pull_policy: build
     volumes:
