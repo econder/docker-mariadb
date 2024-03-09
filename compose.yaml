@@ -2,12 +2,6 @@ version: "3.8"
 
 name: ${PROJECT_NAME}
 
-secrets:
-  db-root:
-    file: ./secrets/root.txt
-  db-schema:
-    file: ./secrets/schema.txt
-
 volumes:
   db-data:
     name: ${DB_VOLUME_NAME}
@@ -39,10 +33,7 @@ services:
     volumes:
       - db-data:/var/lib/mysql
     environment:
-      MARIADB_DATABASE: ${DB_DB_NAME}
+      MARIADB_DATABASE: ${DB_NAME}
       MARIADB_USER: ${DB_USER}
-      MARIADB_PASSWORD: /run/secrets/db-schema
-      MARIADB_ROOT_PASSWORD: /run/secrets/db-root
-    secrets:
-      - db-root
-      - db-schema
+      MARIADB_PASSWORD: ${DB_PWD}
+      MARIADB_ROOT_PASSWORD: ${DB_PWD}
